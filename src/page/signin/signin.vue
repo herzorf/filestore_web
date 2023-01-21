@@ -72,7 +72,10 @@
         }).then((res) => {
           if (res.data.code === 0) {
             const data = res.data.data;
-
+            localStorage.setItem("token", data.Token);
+            localStorage.setItem("username", data.Username);
+            localStorage.setItem("uploadEntry", data.UploadEntry);
+            localStorage.setItem("downloadEntry", data.DownloadEntry);
             router.replace("/home");
           }
         });
