@@ -63,7 +63,6 @@
     if (!formEl) return;
     formEl.validate((valid) => {
       if (valid) {
-        console.log(signinForm);
         http({
           url: "/api/user/signup",
           method: "post",

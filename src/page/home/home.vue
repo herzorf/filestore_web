@@ -73,7 +73,6 @@
     if (res.data.code === 0) {
       fileList.value = res.data.data;
     }
-    console.log(res.data);
   });
 
   const upload = ref<UploadInstance>();
