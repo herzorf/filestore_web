@@ -42,6 +42,7 @@
 <script lang="ts" setup>
   import { reactive, ref } from "vue";
   import type { FormInstance } from "element-plus";
+  import http from "../../http";
 
   const formRef = ref<FormInstance>();
   const signinForm = reactive<{
@@ -57,6 +58,14 @@
     formEl.validate((valid) => {
       if (valid) {
         console.log(signinForm);
+        http({
+          url: "/api/user/signin",
+          method: "post",
+          data: {
+            username: signinForm.username,
+            password: signinForm.password,
+          },
+        });
       } else {
         console.log("校验不通过");
         return false;
