@@ -1,5 +1,6 @@
 <template>
   <div class="signWrapper">
+    <h1>登录页面</h1>
     <el-form
       ref="formRef"
       :model="signinForm"
@@ -34,6 +35,9 @@
         <el-button type="primary" @click="submitForm(formRef)"
           >Submit</el-button
         >
+        <router-link to="/signup" style="margin: 0 18px">
+          <el-button type="primary">注册</el-button>
+        </router-link>
       </el-form-item>
     </el-form>
   </div>
@@ -43,7 +47,7 @@
   import { reactive, ref } from "vue";
   import type { FormInstance } from "element-plus";
   import http from "../../http";
-
+  import { useRouter } from "vue-router";
   const formRef = ref<FormInstance>();
   const signinForm = reactive<{
     username: string;
@@ -52,7 +56,7 @@
     username: "",
     password: "",
   });
-
+  const router = useRouter();
   const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     formEl.validate((valid) => {
@@ -65,6 +69,12 @@
             username: signinForm.username,
             password: signinForm.password,
           },
+        }).then((res) => {
+          if (res.data.code === 0) {
+            const data = res.data.data;
+
+            router.replace("/home");
+          }
         });
       } else {
         console.log("校验不通过");
@@ -79,6 +89,10 @@
     height: 100vh;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    h1 {
+      margin-bottom: 1em;
+    }
     .sign-wrapper {
       width: 500px;
       height: 400px;
