@@ -20,7 +20,6 @@ const createAxiosByinterceptors = (config?: CreateAxiosDefaults): AxiosInstance 
             return Promise.reject(error);
         });
     return instance;
-
 };
 
 const http = createAxiosByinterceptors({

@@ -10,7 +10,7 @@
       :on-exceed="handleExceed"
       :auto-upload="false"
       :data="uploadData"
-      :on-success="handleExceed"
+      :on-success="updateSuccess"
       action="/api/file/upload"
     >
       <template #trigger>
@@ -61,19 +61,26 @@
   }).then((res) => {
     userInfo.value = res.data.data;
   });
-  http({
-    url: "/api/user/filemeta",
-    method: "post",
-    data: {
-      username,
-      token,
-      limit: 10,
-    },
-  }).then((res) => {
-    if (res.data.code === 0) {
-      fileList.value = res.data.data;
-    }
-  });
+  const updateSuccess = () => {
+    upload.value!.clearFiles();
+    getfileMeta();
+  };
+  const getfileMeta = () => {
+    http({
+      url: "/api/user/filemeta",
+      method: "post",
+      data: {
+        username,
+        token,
+        limit: 10,
+      },
+    }).then((res) => {
+      if (res.data.code === 0) {
+        fileList.value = res.data.data;
+      }
+    });
+  };
+  getfileMeta();
 
   const upload = ref<UploadInstance>();
 
