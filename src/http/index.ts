@@ -11,6 +11,10 @@ const createAxiosByinterceptors = (config?: CreateAxiosDefaults): AxiosInstance 
         if (response.data.code === 403) {
             router.replace("/signin")
         }
+        console.log(response)
+        if (response.data.code === -1) {
+            ElMessage.error(response.data.message)
+        }
         return response;
     },
         function (error) {
@@ -23,7 +27,7 @@ const createAxiosByinterceptors = (config?: CreateAxiosDefaults): AxiosInstance 
 };
 
 const http = createAxiosByinterceptors({
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    // headers: { "Content-Type": "application/json" }
 })
 
 
