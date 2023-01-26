@@ -8,10 +8,11 @@ const createAxiosByinterceptors = (config?: CreateAxiosDefaults): AxiosInstance 
         ...config,
     });
     instance.interceptors.response.use(function (response) {
+        console.log(response)
+
         if (response.data.code === 403) {
             router.replace("/signin")
         }
-        console.log(response)
         if (response.data.code === -1) {
             ElMessage.error(response.data.message)
         }

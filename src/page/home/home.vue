@@ -50,7 +50,7 @@
   let token = localStorage.getItem("token") || undefined;
   let userInfo = ref();
   const fileList = ref();
-  const uploadData = { username: localStorage.getItem("username") };
+  const uploadData = { username: localStorage.getItem("username"), token };
   http({
     url: "/api/user/info",
     method: "post",
