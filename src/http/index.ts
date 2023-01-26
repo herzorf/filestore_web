@@ -7,8 +7,14 @@ const createAxiosByinterceptors = (config?: CreateAxiosDefaults): AxiosInstance 
         withCredentials: true,
         ...config,
     });
+    instance.interceptors.request.use(function (config) {
+        config.headers.token = localStorage.getItem("token")
+        config.headers.username = localStorage.getItem("username")
+        return config
+    }, function (error) {
+        return Promise.reject(error);
+    });
     instance.interceptors.response.use(function (response) {
-        console.log(response)
 
         if (response.data.code === 403) {
             router.replace("/signin")
@@ -28,7 +34,7 @@ const createAxiosByinterceptors = (config?: CreateAxiosDefaults): AxiosInstance 
 };
 
 const http = createAxiosByinterceptors({
-    // headers: { "Content-Type": "application/json" }
+
 })
 
 
