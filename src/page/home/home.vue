@@ -7,11 +7,9 @@
     <el-upload
       ref="upload"
       :limit="1"
-      :on-exceed="handleExceed"
       :auto-upload="false"
-      :data="uploadData"
       :on-success="updateSuccess"
-      action="/api/file/upload"
+      :http-request="uploadImage"
     >
       <template #trigger>
         <el-button type="primary">select file</el-button>
@@ -50,18 +48,17 @@
   let token = localStorage.getItem("token") || undefined;
   let userInfo = ref();
   const fileList = ref();
-  const uploadData = { username: localStorage.getItem("username"), token };
   http({
     url: "/api/user/info",
     method: "post",
     data: {
       username,
-      token,
     },
   }).then((res) => {
     userInfo.value = res.data.data;
   });
   const updateSuccess = () => {
+    console.log(11111);
     upload.value!.clearFiles();
     getfileMeta();
   };
@@ -71,7 +68,6 @@
       method: "post",
       data: {
         username,
-        token,
         limit: 10,
       },
     }).then((res) => {
@@ -93,6 +89,21 @@
 
   const submitUpload = () => {
     upload.value!.submit();
+  };
+  const uploadImage = (param: any) => {
+    const formData = new FormData();
+    formData.append("file", param.file);
+    formData.append("username", username || "");
+    http({
+      url: "/api/file/upload",
+      method: "post",
+      data: formData,
+    }).then((res) => {
+      if (res.status === 200) {
+        upload.value!.clearFiles();
+        getfileMeta();
+      }
+    });
   };
 </script>
 <style lang="scss" scoped>
