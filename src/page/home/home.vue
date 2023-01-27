@@ -8,6 +8,7 @@
       ref="upload"
       :limit="1"
       :auto-upload="false"
+      accept="image/*"
       :http-request="uploadImage"
     >
       <template #trigger>
