@@ -33,13 +33,22 @@
         <el-table-column prop="UploadAt" label="上传时间" width="160" />
         <el-table-column prop="LastUpdated" label="最后修改时间" width="160" />
         <el-table-column prop="option" label="操作" fixed="right" width="320">
-          <el-button type="success">下载</el-button>
-          <el-button type="primary">预览</el-button>
-          <el-button type="danger">删除</el-button>
+          <template #default="scope">
+            <el-button type="success">下载</el-button>
+            <el-button
+              type="primary"
+              @click="() => previewImage(scope.row.Location)"
+              >预览</el-button
+            >
+            <el-button type="danger">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
   </div>
+  <el-dialog v-model="imageDialogVisible">
+    <el-image :src="previewImageSrc" />
+  </el-dialog>
 </template>
 <script lang="ts" setup name="Home">
   import { ref } from "vue";
@@ -48,6 +57,8 @@
   let username = localStorage.getItem("username") || undefined;
   let userInfo = ref();
   const fileList = ref();
+  const imageDialogVisible = ref(false);
+  const previewImageSrc = ref("");
   http({
     url: "/api/user/info",
     method: "post",
@@ -57,7 +68,10 @@
   }).then((res) => {
     userInfo.value = res.data.data;
   });
-
+  const previewImage = (url: string) => {
+    previewImageSrc.value = url;
+    imageDialogVisible.value = true;
+  };
   const getfileMeta = () => {
     http({
       url: "/api/user/filemeta",
