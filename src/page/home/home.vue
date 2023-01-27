@@ -8,13 +8,12 @@
       ref="upload"
       :limit="1"
       :auto-upload="false"
-      :on-success="updateSuccess"
       :http-request="uploadImage"
     >
       <template #trigger>
         <el-button type="primary">select file</el-button>
       </template>
-      {{ "   " }}
+      {{ "    " }}
       <el-button class="ml-3" type="success" @click="submitUpload">
         upload to server
       </el-button>
@@ -58,10 +57,7 @@
   }).then((res) => {
     userInfo.value = res.data.data;
   });
-  const updateSuccess = () => {
-    upload.value!.clearFiles();
-    getfileMeta();
-  };
+
   const getfileMeta = () => {
     http({
       url: "/api/user/filemeta",
