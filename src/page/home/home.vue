@@ -1,8 +1,7 @@
 <template>
   <div class="homeWrapper">
     <div>
-      <h1>home</h1>
-      <div>{{ userInfo }}</div>
+      <h1>username : {{ userInfo?.Username || "" }}</h1>
     </div>
     <el-upload
       ref="upload"
