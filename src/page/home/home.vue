@@ -50,10 +50,12 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog v-model="imageDialogVisible">
+      <div class="flexCenter">
+        <el-image :src="previewImageSrc" />
+      </div>
+    </el-dialog>
   </div>
-  <el-dialog v-model="imageDialogVisible">
-    <el-image :src="previewImageSrc" />
-  </el-dialog>
 </template>
 <script lang="ts" setup name="Home">
   import { ref } from "vue";
@@ -128,6 +130,11 @@
     padding: 200px;
     .fileList {
       width: 100%;
+    }
+    .flexCenter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 </style>
