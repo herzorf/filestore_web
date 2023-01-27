@@ -1,7 +1,8 @@
 <template>
   <div class="homeWrapper">
     <div>
-      <h1>username : {{ userInfo?.Username || "" }}</h1>
+      <h1>用户名 : {{ userInfo?.Username || "" }}</h1>
+      <br />
     </div>
     <el-upload
       ref="upload"
@@ -13,9 +14,11 @@
       <template #trigger>
         <el-button type="primary">select file</el-button>
       </template>
+      {{ "   " }}
       <el-button class="ml-3" type="success" @click="submitUpload">
         upload to server
       </el-button>
+      <br />
       <template #tip>
         <div class="el-upload__tip text-red">
           limit 1 file, new file will cover the old file
@@ -24,27 +27,26 @@
     </el-upload>
     <div class="fileList">
       <el-table :data="fileList" style="width: 100%">
-        <el-table-column prop="FileName" label="文件名" width="180" />
-        <el-table-column prop="FileHash" label="文件哈希" width="180" />
-        <el-table-column prop="FileSize" label="文件大小" width="180" />
-        <el-table-column prop="Username" label="用户名" width="180" />
-        <el-table-column prop="UploadAt" label="上传时间" width="180" />
-        <el-table-column prop="LastUpdated" label="最后修改时间" width="180" />
+        <el-table-column prop="FileName" label="文件名" width="160" />
+        <el-table-column prop="FileHash" label="文件哈希" width="160" />
+        <el-table-column prop="FileSize" label="文件大小" width="160" />
+        <el-table-column prop="Username" label="用户名" width="160" />
+        <el-table-column prop="UploadAt" label="上传时间" width="160" />
+        <el-table-column prop="LastUpdated" label="最后修改时间" width="160" />
+        <el-table-column prop="option" label="操作" fixed="right" width="320">
+          <el-button type="success">下载</el-button>
+          <el-button type="primary">预览</el-button>
+          <el-button type="danger">删除</el-button>
+        </el-table-column>
       </el-table>
     </div>
   </div>
 </template>
 <script lang="ts" setup name="Home">
-  import { reactive, ref } from "vue";
+  import { ref } from "vue";
   import http from "../../http";
-  import { genFileId } from "element-plus";
-  import type {
-    UploadInstance,
-    UploadProps,
-    UploadRawFile,
-  } from "element-plus";
+  import type { UploadInstance } from "element-plus";
   let username = localStorage.getItem("username") || undefined;
-  let token = localStorage.getItem("token") || undefined;
   let userInfo = ref();
   const fileList = ref();
   http({
@@ -57,7 +59,6 @@
     userInfo.value = res.data.data;
   });
   const updateSuccess = () => {
-    console.log(11111);
     upload.value!.clearFiles();
     getfileMeta();
   };
@@ -78,14 +79,6 @@
   getfileMeta();
 
   const upload = ref<UploadInstance>();
-
-  const handleExceed: UploadProps["onExceed"] = (files) => {
-    upload.value!.clearFiles();
-    const file = files[0] as UploadRawFile;
-    file.uid = genFileId();
-    upload.value!.handleStart(file);
-  };
-
   const submitUpload = () => {
     upload.value!.submit();
   };
@@ -112,7 +105,7 @@
     justify-content: center;
     padding: 200px;
     .fileList {
-      width: 80%;
+      width: 100%;
     }
   }
 </style>
