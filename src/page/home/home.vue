@@ -29,7 +29,11 @@
       <el-table :data="fileList" style="width: 100%">
         <el-table-column prop="FileName" label="文件名" width="160" />
         <el-table-column prop="FileHash" label="文件哈希" width="160" />
-        <el-table-column prop="FileSize" label="文件大小" width="160" />
+        <el-table-column prop="FileSize" label="文件大小" width="160">
+          <template #default="scope">
+            {{ calFileSize(scope.row.FileSize / 1024) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="Username" label="用户名" width="160" />
         <el-table-column prop="UploadAt" label="上传时间" width="160" />
         <el-table-column prop="LastUpdated" label="最后修改时间" width="160" />
@@ -60,6 +64,13 @@
   const fileList = ref();
   const imageDialogVisible = ref(false);
   const previewImageSrc = ref("");
+  const calFileSize = (size: number) => {
+    if (size / 1024 > 1) {
+      return (size / 1024).toFixed(2) + "M";
+    } else {
+      return size.toFixed(2) + "k";
+    }
+  };
   http({
     url: "/api/user/info",
     method: "post",
