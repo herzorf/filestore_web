@@ -101,11 +101,14 @@
     document.body.appendChild(elemIF);
   };
   const deleteImage = (hash: string) => {
-    console.log(hash);
     http({
       url: "/api/file/delete",
       method: "post",
       data: { filehash: hash },
+    }).then((res) => {
+      if (res.data.code === 0) {
+        getfileMeta();
+      }
     });
   };
   const getfileMeta = () => {
