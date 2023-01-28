@@ -39,7 +39,11 @@
         <el-table-column prop="LastUpdated" label="最后修改时间" width="160" />
         <el-table-column prop="option" label="操作" fixed="right" width="320">
           <template #default="scope">
-            <el-button type="success">下载</el-button>
+            <el-button
+              type="success"
+              @click="() => downloadImage(scope.row.Location)"
+              >下载</el-button
+            >
             <el-button
               type="primary"
               @click="() => previewImage(scope.row.Location)"
@@ -85,6 +89,12 @@
   const previewImage = (url: string) => {
     previewImageSrc.value = url;
     imageDialogVisible.value = true;
+  };
+  const downloadImage = (url: string) => {
+    var elemIF = document.createElement("iframe");
+    elemIF.src = url;
+    elemIF.style.display = "none";
+    document.body.appendChild(elemIF);
   };
   const getfileMeta = () => {
     http({
