@@ -49,7 +49,11 @@
               @click="() => previewImage(scope.row.Location)"
               >预览</el-button
             >
-            <el-button type="danger">删除</el-button>
+            <el-button
+              type="danger"
+              @click="() => deleteImage(scope.row.FileHash)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -95,6 +99,14 @@
     elemIF.src = url;
     elemIF.style.display = "none";
     document.body.appendChild(elemIF);
+  };
+  const deleteImage = (hash: string) => {
+    console.log(hash);
+    http({
+      url: "/api/file/delete",
+      method: "post",
+      data: { filehash: hash },
+    });
   };
   const getfileMeta = () => {
     http({
