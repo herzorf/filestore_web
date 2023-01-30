@@ -35,9 +35,9 @@
         <el-button type="primary" @click="submitForm(formRef)"
           >Submit</el-button
         >
-        <!-- <router-link to="/signup" style="margin: 0 18px">
+        <router-link to="/signup" style="margin: 0 18px">
           <el-button type="primary">注册</el-button>
-        </router-link> -->
+        </router-link>
       </el-form-item>
     </el-form>
   </div>
